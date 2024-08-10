@@ -1,0 +1,60 @@
+basePath: /
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a sample server.
+  title: My API
+  version: "1.0"
+paths:
+  /result/:
+    get:
+      description: Post task_id in DataBase
+      parameters:
+      - description: task_id
+        in: query
+        name: task_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: 'result": "result state'
+          schema:
+            type: json
+        "500":
+          description: Failed to get result
+          schema:
+            type: string
+      summary: Get task result
+  /status/:
+    get:
+      description: Post task_id in DataBase
+      parameters:
+      - description: task_id
+        in: query
+        name: task_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: 'status": "status state'
+          schema:
+            type: json
+        "500":
+          description: Failed to get status
+          schema:
+            type: string
+      summary: Get task status
+  /task:
+    post:
+      description: Post task_id in DataBase and start task
+      responses:
+        "200":
+          description: Id
+          schema:
+            type: string
+        "500":
+          description: Failed to store value
+          schema:
+            type: string
+      summary: Post task task_id
+swagger: "2.0"
