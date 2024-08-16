@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/result/": {
+        "/result/{task_id}": {
             "get": {
                 "description": "Post task_id in DataBase",
                 "summary": "Get task result",
@@ -24,7 +24,7 @@ const docTemplate = `{
                         "type": "string",
                         "description": "task_id",
                         "name": "task_id",
-                        "in": "query",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -35,7 +35,7 @@ const docTemplate = `{
                             "type": "json"
                         }
                     },
-                    "500": {
+                    "404": {
                         "description": "Failed to get result",
                         "schema": {
                             "type": "string"
@@ -44,7 +44,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/status/": {
+        "/status/{task_id}": {
             "get": {
                 "description": "Post task_id in DataBase",
                 "summary": "Get task status",
@@ -53,7 +53,7 @@ const docTemplate = `{
                         "type": "string",
                         "description": "task_id",
                         "name": "task_id",
-                        "in": "query",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -64,7 +64,7 @@ const docTemplate = `{
                             "type": "json"
                         }
                     },
-                    "500": {
+                    "404": {
                         "description": "Failed to get status",
                         "schema": {
                             "type": "string"
@@ -78,13 +78,13 @@ const docTemplate = `{
                 "description": "Post task_id in DataBase and start task",
                 "summary": "Post task task_id",
                 "responses": {
-                    "200": {
-                        "description": "Id",
+                    "201": {
+                        "description": "task_id\": \"id value",
                         "schema": {
-                            "type": "string"
+                            "type": "json"
                         }
                     },
-                    "500": {
+                    "404": {
                         "description": "Failed to store value",
                         "schema": {
                             "type": "string"
@@ -99,7 +99,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8080",
+	Host:             "127.0.0.1:8000",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "My API",

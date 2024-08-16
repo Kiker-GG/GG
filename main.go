@@ -10,10 +10,10 @@ import (
 // @title My API
 // @version 1.0
 // @description This is a sample server.
-// @host localhost:8080
+// @host 127.0.0.1:8000
 // @BasePath /
 func main() {
-	addr := flag.String("addr", ":8080", "address for http server")
+	addr := flag.String("addr", "0.0.0.0:8000", "address for http server")
 
 	s := storage.NewDatabase()
 

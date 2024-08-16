@@ -12,4 +12,6 @@ WORKDIR /app
 
 COPY --from=BUILD /build/http_server .
 
-CMD ["./http_server"]
+EXPOSE 8000
+
+CMD ["./http_server", "-addr", "0.0.0.0:8000"]

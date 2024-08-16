@@ -6,10 +6,10 @@
         "contact": {},
         "version": "1.0"
     },
-    "host": "localhost:8080",
+    "host": "127.0.0.1:8000",
     "basePath": "/",
     "paths": {
-        "/result/": {
+        "/result/{task_id}": {
             "get": {
                 "description": "Post task_id in DataBase",
                 "summary": "Get task result",
@@ -18,7 +18,7 @@
                         "type": "string",
                         "description": "task_id",
                         "name": "task_id",
-                        "in": "query",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -29,7 +29,7 @@
                             "type": "json"
                         }
                     },
-                    "500": {
+                    "404": {
                         "description": "Failed to get result",
                         "schema": {
                             "type": "string"
@@ -38,7 +38,7 @@
                 }
             }
         },
-        "/status/": {
+        "/status/{task_id}": {
             "get": {
                 "description": "Post task_id in DataBase",
                 "summary": "Get task status",
@@ -47,7 +47,7 @@
                         "type": "string",
                         "description": "task_id",
                         "name": "task_id",
-                        "in": "query",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -58,7 +58,7 @@
                             "type": "json"
                         }
                     },
-                    "500": {
+                    "404": {
                         "description": "Failed to get status",
                         "schema": {
                             "type": "string"
@@ -72,13 +72,13 @@
                 "description": "Post task_id in DataBase and start task",
                 "summary": "Post task task_id",
                 "responses": {
-                    "200": {
-                        "description": "Id",
+                    "201": {
+                        "description": "task_id\": \"id value",
                         "schema": {
-                            "type": "string"
+                            "type": "json"
                         }
                     },
-                    "500": {
+                    "404": {
                         "description": "Failed to store value",
                         "schema": {
                             "type": "string"

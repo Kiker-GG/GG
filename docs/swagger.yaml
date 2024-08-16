@@ -1,17 +1,17 @@
 basePath: /
-host: localhost:8080
+host: 127.0.0.1:8000
 info:
   contact: {}
   description: This is a sample server.
   title: My API
   version: "1.0"
 paths:
-  /result/:
+  /result/{task_id}:
     get:
       description: Post task_id in DataBase
       parameters:
       - description: task_id
-        in: query
+        in: path
         name: task_id
         required: true
         type: string
@@ -20,17 +20,17 @@ paths:
           description: 'result": "result state'
           schema:
             type: json
-        "500":
+        "404":
           description: Failed to get result
           schema:
             type: string
       summary: Get task result
-  /status/:
+  /status/{task_id}:
     get:
       description: Post task_id in DataBase
       parameters:
       - description: task_id
-        in: query
+        in: path
         name: task_id
         required: true
         type: string
@@ -39,7 +39,7 @@ paths:
           description: 'status": "status state'
           schema:
             type: json
-        "500":
+        "404":
           description: Failed to get status
           schema:
             type: string
@@ -48,11 +48,11 @@ paths:
     post:
       description: Post task_id in DataBase and start task
       responses:
-        "200":
-          description: Id
+        "201":
+          description: 'task_id": "id value'
           schema:
-            type: string
-        "500":
+            type: json
+        "404":
           description: Failed to store value
           schema:
             type: string
