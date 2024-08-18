@@ -1,18 +1,26 @@
 package storage
 
-import "errors"
+import (
+	"errors"
+	task "http_server/models"
+)
+
+// type Task struct {
+// 	readiness string
+// 	result    string
+// }
 
 type Database struct {
-	data map[string]map[string]string
+	data map[string]task.Task
 }
 
 func NewDatabase() *Database {
 	return &Database{
-		data: make(map[string]map[string]string),
+		data: make(map[string]task.Task),
 	}
 }
 
-func (db *Database) Get(key string) (*map[string]string, error) {
+func (db *Database) Get(key string) (*task.Task, error) {
 	value, exists := db.data[key]
 
 	if !exists {
@@ -22,7 +30,7 @@ func (db *Database) Get(key string) (*map[string]string, error) {
 	return &value, nil
 }
 
-func (db *Database) Post(key string, value map[string]string) error {
+func (db *Database) Post(key string, value task.Task) error {
 	_, exists := db.data[key]
 
 	if exists {
@@ -34,7 +42,7 @@ func (db *Database) Post(key string, value map[string]string) error {
 	return nil
 }
 
-func (db *Database) Put(key string, value map[string]string) error {
+func (db *Database) Put(key string, value task.Task) error {
 	_, exists := db.data[key]
 
 	if !exists {

@@ -8,15 +8,17 @@ import (
 
 	_ "http_server/docs"
 
+	task "http_server/models"
+
 	chi "github.com/go-chi/chi/v5"
 	uuid "github.com/google/uuid"
 	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 type Storage interface {
-	Get(key string) (*map[string]string, error)
-	Post(key string, value map[string]string) error
-	Put(key string, value map[string]string) error
+	Get(key string) (*task.Task, error)
+	Post(key string, value task.Task) error
+	Put(key string, value task.Task) error
 }
 
 type Server struct {
@@ -30,7 +32,7 @@ func newServer(curr_storage Storage) *Server {
 func task_work(s *Server, id uuid.UUID) {
 	time.Sleep(10 * time.Second)
 
-	s.storage.Put(id.String(), map[string]string{"status": "ready", "result": "some rubish"})
+	s.storage.Put(id.String(), task.Task{Readiness: "ready", Result: "some rubish"})
 }
 
 // @Summary Post task task_id
@@ -41,7 +43,7 @@ func task_work(s *Server, id uuid.UUID) {
 func (s *Server) postHandler(w http.ResponseWriter, r *http.Request) {
 	id, _ := uuid.NewUUID()
 
-	if err := s.storage.Post(id.String(), map[string]string{"status": "in_progress", "result": ""}); err != nil {
+	if err := s.storage.Post(id.String(), task.Task{Readiness: "in_progress", Result: ""}); err != nil {
 		http.Error(w, "Failed to store value", http.StatusNotFound)
 
 		return
@@ -73,7 +75,7 @@ func (s *Server) getStatusHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]string{"status": (*val)["status"]})
+	json.NewEncoder(w).Encode(map[string]string{"status": val.Readiness})
 }
 
 // @Summary Get task result
@@ -94,11 +96,11 @@ func (s *Server) getResultHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if (*val)["result"] == "" {
+	if val.Result == "" {
 		http.Error(w, "Failed to get result", http.StatusNotFound)
 	} else {
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(map[string]string{"result": (*val)["result"]})
+		json.NewEncoder(w).Encode(map[string]string{"result": val.Result})
 	}
 }
 
